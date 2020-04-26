@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -41,13 +43,24 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     public void updateMainPage(View view) {
-        Intent updateIntent = new Intent();
-        updateIntent.putExtra("firstName", editFirstName.getText().toString());
-        updateIntent.putExtra("lastName", editLastName.getText().toString());
-        updateIntent.putExtra("gender", genderStr);
+        String firstNameTemp = editFirstName.getText().toString();
+        String lastNameTemp = editLastName.getText().toString();
 
-        setResult(RESULT_OK, updateIntent);
-        finish();
+        //Check if strings are empty
+        if(TextUtils.isEmpty(firstNameTemp) || TextUtils.isEmpty(lastNameTemp) || TextUtils.isEmpty(genderStr))
+        {
+            Toast.makeText(getApplicationContext(), "The strings cannot be empty", Toast.LENGTH_LONG).show();
+        }
+        else
+        {
+            Intent updateIntent = new Intent();
+            updateIntent.putExtra("firstName", firstNameTemp);
+            updateIntent.putExtra("lastName", lastNameTemp);
+            updateIntent.putExtra("gender", genderStr);
+
+            setResult(RESULT_OK, updateIntent);
+            finish();
+        }
     }
 
 }
